@@ -49,13 +49,19 @@ class RDSDatabaseConnector:
         return df
         
 
-test=RDSDatabaseConnector(credentials)
-engine=test.initialise_db_engine()
+if __name__=="__main__":
 
-df=test.read_rds_table(engine,'loan_payments')
-print(df)
 
-test.dataframe_to_csv(df, 'loan_payments.csv')
+    test=RDSDatabaseConnector(credentials)
+    engine=test.initialise_db_engine()
+
+    df=test.read_rds_table(engine,'loan_payments')
+    print(df)
+
+    test.dataframe_to_csv(df, 'loan_payments.csv')
+
+    df2=test.load_data_from_csv('loan_payments.csv')
+    print(df2)
 
 
 
