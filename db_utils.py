@@ -1,7 +1,7 @@
-import yaml
-from sqlalchemy import create_engine
 import pandas as pd
-import os
+from sqlalchemy import create_engine
+import yaml
+# import os
 
 # Task 2 Step 3 
 
@@ -14,10 +14,18 @@ with open('credentials.yaml','r') as file:
 class RDSDatabaseConnector:
 
     # Task2 Steps 4 & 5
-    def __init__(self, credentials):
+    def __init__(self, credentials):  
+        """connection credentials from credentials.yaml config file. 
+        Args:
+            credentials in dictionary format
+        """  
         self.credentials=credentials
 
     def initialise_db_engine(self):
+        """initialise database engine 
+        Returns:
+            sqlalchemy connection engine 
+        """        
         DBAPI='psycopg2'
         DATABASE=self.credentials['RDS_DATABASE']
         DATABASE_TYPE='postgresql'
@@ -31,7 +39,14 @@ class RDSDatabaseConnector:
         return engine
 
     # Task2 Step 6
-    def read_rds_table(self, engine, table_name):
+    def read_rds_table(self, engine, table_name):      
+        """
+        Args:
+            engine : database connection engine 
+            table_name : table name that that needs to be loaded 
+        Returns:
+            data extract in dataframe
+        """        
         query = r'select * from {}'.format(table_name)
         data=pd.read_sql_query(query, engine)
         return data
@@ -39,12 +54,21 @@ class RDSDatabaseConnector:
     # Task2 Step 7 
 
     def dataframe_to_csv(self, dataframe, file_name):
+        """dataframe to be saved in csv file format
+        Args:
+            dataframe : dataframe to be saved
+            file_name : filename 
+        """        
         return dataframe.to_csv(file_name)
     
     # Task 3 
 
     def load_data_from_csv(self,  file_name):
-        
+        """load data from a local csv file 
+
+        Returns:
+           dataframe 
+        """               
         df=pd.read_csv(file_name)
         return df
         
