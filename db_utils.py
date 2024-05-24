@@ -1,25 +1,25 @@
 import pandas as pd
 from sqlalchemy import create_engine
 import yaml
-# import os
 
-# Task 2 Step 3 
+def load_yaml_file():
+    with open('credentials.yaml','r') as file:
+        credentials=yaml.safe_load(file)
+    return credentials    
 
-with open('credentials.yaml','r') as file:
-    credentials=yaml.safe_load(file)
+def load_data_from_csv(file_name):
+    df=pd.read_csv(file_name, index_col=0)
+    return df
 
-# print(credentials)
 
-# Task 1 Step 2
 class RDSDatabaseConnector:
 
-    # Task2 Steps 4 & 5
     def __init__(self, credentials):  
         """connection credentials from credentials.yaml config file. 
         Args:
             credentials in dictionary format
         """  
-        self.credentials=credentials
+        self.credentials=load_yaml_file()
 
     def initialise_db_engine(self):
         """initialise database engine 
@@ -38,7 +38,6 @@ class RDSDatabaseConnector:
 
         return engine
 
-    # Task2 Step 6
     def read_rds_table(self, engine, table_name):      
         """
         Args:
@@ -51,27 +50,16 @@ class RDSDatabaseConnector:
         data=pd.read_sql_query(query, engine)
         return data
 
-    # Task2 Step 7 
-
-    def dataframe_to_csv(self, dataframe, file_name):
+    def dataframe_to_csv(self, df, file_name):
         """dataframe to be saved in csv file format
         Args:
             dataframe : dataframe to be saved
             file_name : filename 
         """        
-        return dataframe.to_csv(file_name)
-    
-    # Task 3 
+        return df.to_csv(file_name)
 
-    def load_data_from_csv(self,  file_name):
-        """load data from a local csv file 
 
-        Returns:
-           dataframe 
-        """               
-        df=pd.read_csv(file_name)
-        return df
-        
+
 
 if __name__=="__main__":
 
@@ -80,12 +68,13 @@ if __name__=="__main__":
     engine=test.initialise_db_engine()
 
     df=test.read_rds_table(engine,'loan_payments')
-    print(df)
+    print("df1", df.head(3))
 
     test.dataframe_to_csv(df, 'loan_payments.csv')
+    print("********")
 
-    df2=test.load_data_from_csv('loan_payments.csv')
-    print(df2)
+    df2=load_data_from_csv('loan_payments.csv')
+    print("df2", df2.columns)
 
 
 
