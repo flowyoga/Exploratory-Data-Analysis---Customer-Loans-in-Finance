@@ -6,7 +6,6 @@ class DataTransform:
         self.df = df 
 
     def datetime_conversion(self, column):
-        # column=pd.to_datetime(column, format='mixed',infer_datetime_format=True, errors='coerce')
         self.df[column]=pd.to_datetime(self.df[column], format='mixed')
         return self.df
    

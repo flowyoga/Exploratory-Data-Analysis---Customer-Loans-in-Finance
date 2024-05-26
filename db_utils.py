@@ -14,7 +14,7 @@ def load_data_from_csv(file_name):
 
 class RDSDatabaseConnector:
 
-    def __init__(self, credentials):  
+    def __init__(self):  
         """connection credentials from credentials.yaml config file. 
         Args:
             credentials in dictionary format
@@ -63,8 +63,8 @@ class RDSDatabaseConnector:
 
 if __name__=="__main__":
 
-
-    test=RDSDatabaseConnector(credentials)
+    
+    test=RDSDatabaseConnector()
     engine=test.initialise_db_engine()
 
     df=test.read_rds_table(engine,'loan_payments')

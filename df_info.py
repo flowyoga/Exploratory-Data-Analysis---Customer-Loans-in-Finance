@@ -3,7 +3,6 @@ class DataFrameInfo:
     def __init__(self, df):
         self.df = df 
 
-
     def df_info(self, column_name):
         return self.df[column_name].info()
 
@@ -32,11 +31,10 @@ class DataFrameInfo:
             self.df[column]=self.df[column].str.replace(substring,' ')
         return self.df[column]    
     
-
 if __name__=="__main__":
     from db_utils import load_data_from_csv
 
-    file_name='loan_payments.csv'
+    file_name='loan_payments_from_source.csv'
     df = load_data_from_csv(file_name)
     print(df.info())
     print(df.columns)
