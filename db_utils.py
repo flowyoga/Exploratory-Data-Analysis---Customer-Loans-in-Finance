@@ -8,6 +8,14 @@ def load_yaml_file():
     return credentials    
 
 def load_data_from_csv(file_name):
+    """ loading data from a local file to a dataframe
+
+    Args:
+        file_name (str): file to be loaded
+
+    Returns:
+        dataframe
+    """    
     df=pd.read_csv(file_name, index_col=0)
     return df
 
@@ -15,14 +23,12 @@ def load_data_from_csv(file_name):
 class RDSDatabaseConnector:
 
     def __init__(self):  
-        """connection credentials from credentials.yaml config file. 
-        Args:
-            credentials in dictionary format
+        """ connection credentials from credentials.yaml config file. 
         """  
         self.credentials=load_yaml_file()
 
     def initialise_db_engine(self):
-        """initialise database engine 
+        """ initialise database engine 
         Returns:
             sqlalchemy connection engine 
         """        
@@ -44,7 +50,7 @@ class RDSDatabaseConnector:
             engine : database connection engine 
             table_name : table name that that needs to be loaded 
         Returns:
-            data extract in dataframe
+            data extract in pandas dataframe format
         """        
         query = r'select * from {}'.format(table_name)
         data=pd.read_sql_query(query, engine)
